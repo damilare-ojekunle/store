@@ -47,4 +47,8 @@ export default class AuthController {
         res.status(HTTP_STATUS.OK).json({ success: true, message: "User deleted successfully" });
 
     })
+    static getAllUsers = AsyncHandler(async (req: Request, res: Response) => {
+        const users = await AuthService.getAllUsers();
+        res.status(HTTP_STATUS.OK).json({ success: true, data: users });
+    })
 }

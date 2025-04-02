@@ -60,6 +60,9 @@ export default class AuthService {
     static async deleteUser(id: string): Promise<IUser | null> {
         return await UserRepository.deleteUser(id);
     }
+    static async getAllUsers(): Promise<IUser[]> {
+        return await UserRepository.getAllUsers();
+    }
 
 
 

@@ -28,5 +28,9 @@ export default class UserRepository {
     static async updateUser(userId: string, updateUser: Partial<IUser>): Promise<IUser | null> {
         return await User.findByIdAndUpdate(userId, updateUser, { new: true, runValidators: true });
     }
+
+    static async getAllUsers(): Promise<IUser[]> {
+        return await User.find();
+    }
 }
 
