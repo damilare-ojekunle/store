@@ -17,4 +17,16 @@ export default class UserRepository {
             throw error;
         }
     }
+    static async getUserById(userId: string): Promise<IUser | null> {
+        return await User.findById(userId);
+    }
+    static async deleteUser(userId: string): Promise<IUser | null> {
+        return await User.findByIdAndDelete(userId);
+    }
+
+
+    static async updateUser(userId: string, updateUser: Partial<IUser>): Promise<IUser | null> {
+        return await User.findByIdAndUpdate(userId, updateUser, { new: true, runValidators: true });
+    }
 }
+

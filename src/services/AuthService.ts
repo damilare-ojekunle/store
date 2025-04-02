@@ -2,9 +2,14 @@ import UserRepository from "../repositories/UserRepository";
 import bcrypt from "bcrypt";
 import jwt from "jsonwebtoken";
 import { BadRequestError } from "../utils/errors";
+import { IUser } from "../models/User";
 
 
 export default class AuthService {
+
+    private static generateToken(userId: string): string {
+        return jwt.sign({ id: userId }, process.env.JWT_SECRET as string, { expiresIn: "1h" });
+    }
     static async register(name: string, email: string, password: string) {
         const existingUser = await UserRepository.findByEmail(email);
         if (existingUser) {
@@ -44,7 +49,18 @@ export default class AuthService {
         };
     }
 
-    private static generateToken(userId: string): string {
-        return jwt.sign({ id: userId }, process.env.JWT_SECRET as string, { expiresIn: "1h" });
+
+    static async getUserById(id: string) {
+        return await UserRepository.getUserById(id);
     }
+    static async updateUser(id: string, updateUser: Partial<IUser>): Promise<IUser | null> {
+
+        return await UserRepository.updateUser(id, updateUser);
+    }
+    static async deleteUser(id: string): Promise<IUser | null> {
+        return await UserRepository.deleteUser(id);
+    }
+
+
+
 }

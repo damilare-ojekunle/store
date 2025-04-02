@@ -18,4 +18,33 @@ export default class AuthController {
         return res.status(HTTP_STATUS.OK).json(response);
 
     });
+
+    static getUserById = AsyncHandler(async (req: Request, res: Response) => {
+        const { id } = req.params;
+        const user = await AuthService.getUserById(id);
+        if (!user) {
+            return res.status(HTTP_STATUS.NOT_FOUND).json({ success: false, message: "User not found" });
+        }
+        res.status(HTTP_STATUS.OK).json({ success: true, data: user });
+
+    })
+    static updateUser = AsyncHandler(async (req: Request, res: Response) => {
+        const { id } = req.params;
+        const updatedUser = await AuthService.updateUser(id, req.body);
+        if (!updatedUser) {
+            return res.status(HTTP_STATUS.NOT_FOUND).json({ success: false, message: "User not found" });
+        }
+        res.status(HTTP_STATUS.OK).json({ success: true, data: updatedUser });
+
+    })
+
+    static deleteUser = AsyncHandler(async (req: Request, res: Response) => {
+        const { id } = req.params;
+        const deleted = await AuthService.deleteUser(id);
+        if (!deleted) {
+            return res.status(HTTP_STATUS.NOT_FOUND).json({ success: false, message: "User not found" });
+        }
+        res.status(HTTP_STATUS.OK).json({ success: true, message: "User deleted successfully" });
+
+    })
 }
